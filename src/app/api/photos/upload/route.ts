@@ -42,13 +42,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // In a real app, you would:
-    // 1. Upload file to S3/CloudStorage
-    // 2. Get the file URL
-    // 3. Save photo record to database
+    // For now, we'll store files in the public/uploads directory
+    // In production, you'd use Vercel Blob, S3, or similar
+    const fileName = `${Date.now()}-${file.name}`
+    const fileUrl = `/uploads/${fileName}`
     
-    // For now, we'll simulate the upload
-    const fileUrl = `/uploads/${Date.now()}-${file.name}`
+    // Create uploads directory if it doesn't exist
+    const fs = require('fs')
+    const path = require('path')
+    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
+    
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true })
+    }
+    
+    // Save file to public/uploads
+    const filePath = path.join(uploadsDir, fileName)
+    const buffer = Buffer.from(await file.arrayBuffer())
+    fs.writeFileSync(filePath, buffer)
     
     // Get geolocation if available (in real app, this would come from the client)
     const latitude = 40.7128 // Mock coordinates
