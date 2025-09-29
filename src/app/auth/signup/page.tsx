@@ -14,8 +14,6 @@ export default function SignUpPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
-    confirmPassword: "",
     role: "CLIENT"
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -27,12 +25,6 @@ export default function SignUpPage() {
     setIsLoading(true)
     setError("")
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
-      setIsLoading(false)
-      return
-    }
-
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -42,28 +34,15 @@ export default function SignUpPage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          password: formData.password,
           role: formData.role,
         }),
       })
 
       if (response.ok) {
-        // Auto sign in after successful registration
-        const result = await signIn("credentials", {
-          email: formData.email,
-          password: formData.password,
-          redirect: false,
-        })
-
-        if (result?.ok) {
-          if (formData.role === "PROVIDER") {
-            router.push("/dashboard/provider")
-          } else {
-            router.push("/dashboard/client")
-          }
-        } else {
-          router.push("/auth/signin")
-        }
+        // Redirect to sign in page after successful registration
+        setError("")
+        alert("Account created successfully! Please sign in with Google to continue.")
+        router.push("/auth/signin")
       } else {
         const data = await response.json()
         setError(data.error || "Failed to create account")
@@ -92,7 +71,7 @@ export default function SignUpPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-primary-700">WorkProofed</CardTitle>
           <CardDescription>
-            Create your account
+            Create your account - you'll sign in with Google after registration
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -127,42 +106,19 @@ export default function SignUpPage() {
               />
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-2 relative z-10">
               <Label htmlFor="role">I am a...</Label>
               <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent className="z-50">
+                <SelectContent className="z-[100] relative" position="popper">
                   <SelectItem value="CLIENT">Client (Looking for services)</SelectItem>
                   <SelectItem value="PROVIDER">Service Provider (Offering services)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required
-                placeholder="Create a password"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                required
-                placeholder="Confirm your password"
-              />
-            </div>
             
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Creating account..." : "Create Account"}
