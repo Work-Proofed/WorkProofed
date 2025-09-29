@@ -49,9 +49,12 @@ model User {
 
   accounts Account[]
   sessions Session[]
-  jobs     Job[]
-  invoices Invoice[]
-  reviews  Review[]
+  jobsAsClient   Job[]     @relation("JobClient")
+  jobsAsProvider Job[]     @relation("JobProvider")
+  invoicesAsClient   Invoice[] @relation("InvoiceClient")
+  invoicesAsProvider Invoice[] @relation("InvoiceProvider")
+  reviewsAsClient   Review[] @relation("ReviewClient")
+  reviewsAsProvider Review[] @relation("ReviewProvider")
 }
 
 model VerificationToken {
