@@ -73,7 +73,7 @@ export default function DashboardLayout({
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center justify-center border-b border-gray-200">
-            <h1 className="text-xl font-bold text-indigo-600">WorkProofed</h1>
+            <h1 className="text-xl font-bold text-primary-700">WorkProofed</h1>
           </div>
 
           {/* Navigation */}
@@ -97,8 +97,8 @@ export default function DashboardLayout({
           <div className="border-t border-gray-200 p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                  <span className="text-sm font-medium text-indigo-600">
+                <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
+                  <span className="text-sm font-medium text-primary-700">
                     {session.user.name?.charAt(0) || session.user.email?.charAt(0)}
                   </span>
                 </div>

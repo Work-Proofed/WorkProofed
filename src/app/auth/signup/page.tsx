@@ -87,10 +87,10 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-indigo-600">WorkProofed</CardTitle>
+          <CardTitle className="text-2xl font-bold text-primary-700">WorkProofed</CardTitle>
           <CardDescription>
             Create your account
           </CardDescription>
@@ -133,7 +133,7 @@ export default function SignUpPage() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-50">
                   <SelectItem value="CLIENT">Client (Looking for services)</SelectItem>
                   <SelectItem value="PROVIDER">Service Provider (Offering services)</SelectItem>
                 </SelectContent>
@@ -211,7 +211,7 @@ export default function SignUpPage() {
           
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-600">Already have an account? </span>
-            <Link href="/auth/signin" className="text-indigo-600 hover:underline">
+            <Link href="/auth/signin" className="text-primary-700 hover:underline">
               Sign in
             </Link>
           </div>
